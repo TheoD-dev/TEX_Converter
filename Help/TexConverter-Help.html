@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serious Sam TEX Converter - Help</title>
+<style>
+  :root { --ink:#1d2433; --muted:#5b6475; --line:#d9dee7; --soft:#f4f6fa; --accent:#2f5fb3; --warn:#9a5b00; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Segoe UI", "Noto Sans", "DejaVu Sans", Arial, sans-serif; color:var(--ink); background:#fff; line-height:1.55; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 20px 80px; }
+  h1 { font-size: 1.9em; margin: 0 0 4px; }
+  h2 { font-size: 1.4em; margin: 48px 0 8px; padding-top: 12px; border-top: 2px solid var(--line); }
+  h3 { font-size: 1.12em; margin: 28px 0 6px; }
+  h4 { font-size: 1em; margin: 18px 0 4px; }
+  p, li { max-width: 72ch; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  code, kbd { font-family: Consolas, "DejaVu Sans Mono", monospace; font-size: .92em; }
+  kbd { background: var(--soft); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; white-space: nowrap; }
+  code { background: var(--soft); padding: 0 4px; border-radius: 3px; }
+  table { border-collapse: collapse; margin: 10px 0 16px; width: 100%; font-size: .95em; }
+  th, td { border: 1px solid var(--line); padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--soft); }
+  .note { background: #fff8e8; border-left: 4px solid #e0a63a; padding: 8px 12px; margin: 12px 0; }
+  .tip { background: #eef5ff; border-left: 4px solid var(--accent); padding: 8px 12px; margin: 12px 0; }
+  .toc ol { padding-left: 22px; }
+  .toc > ol > li { margin: 6px 0; font-weight: 600; }
+  .toc ol ol li { font-weight: normal; margin: 2px 0; }
+  .index { columns: 2 260px; column-gap: 32px; }
+  .index p { margin: 2px 0; break-inside: avoid; }
+  .index .letter { font-weight: 700; margin-top: 12px; color: var(--muted); }
+  .back { font-size: .85em; float: right; font-weight: normal; }
+  pre { background: var(--soft); padding: 10px 12px; border-radius: 4px; overflow-x: auto; font-size: .9em; }
+  .faces { display: grid; gap: 2px; margin: 12px 0 18px; }
+  .faces div { border: 1px solid #7a869a; background: #e6ecf6; text-align: center; padding: 6px 2px; font-weight: 600; font-size: .9em; }
+  .faces .e { border: none; background: none; }
+  .faces .half { background: #dfeedd; }
+  .faces .top { background: #f3e6cf; }
+  .faces .bottom { background: #ececec; }
+  figure { margin: 10px 0 18px; }
+  figcaption { color: var(--muted); font-size: .88em; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Serious Sam TEX Converter</h1>
+<p class="sub">Help for version 1 - viewing and converting textures from Serious Sam 1, 2 and 3. Works on Windows and Linux.</p>
+
+<!-- ========================================================= -->
+<nav class="toc" id="contents">
+<h2 style="border-top:none;margin-top:16px">Contents</h2>
+<ol>
+  <li><a href="#intro">Introduction</a>
+    <ol>
+      <li><a href="#what">What the program does</a></li>
+      <li><a href="#games">Supported games and files</a></li>
+    </ol></li>
+  <li><a href="#using">Using the program</a>
+    <ol>
+      <li><a href="#mainwindow">The main window</a></li>
+      <li><a href="#opening">Opening files</a></li>
+      <li><a href="#gro">Opening textures from a .gro archive</a></li>
+      <li><a href="#saving">Save and Save As</a></li>
+      <li><a href="#dataloss">Warnings when information is lost</a></li>
+      <li><a href="#savetex">Saving as a Serious Sam 1 texture</a></li>
+      <li><a href="#savedds">Saving as DDS</a></li>
+    </ol></li>
+  <li><a href="#menus">Menu reference and keyboard shortcuts</a></li>
+  <li><a href="#editing">Editing and Undo</a>
+    <ol>
+      <li><a href="#undo">Undo, Redo and Revert to original</a></li>
+      <li><a href="#levels">Levels</a></li>
+      <li><a href="#autolevels">Auto levels</a></li>
+      <li><a href="#clipping">Clipping and merged tones</a></li>
+      <li><a href="#resize">Resize</a></li>
+      <li><a href="#channels">Channels</a></li>
+      <li><a href="#normalmap">Normal map tools</a></li>
+    </ol></li>
+  <li><a href="#hdrmenu">The HDR menu</a></li>
+  <li><a href="#histogram">The Histogram window</a></li>
+  <li><a href="#batch">The Batch conversion window</a></li>
+  <li><a href="#skyboxwin">The Skybox window</a></li>
+  <li><a href="#prefs">Preferences and remembered settings</a></li>
+  <li><a href="#se1tex">Background: the Serious Sam 1 .tex format</a>
+    <ol>
+      <li><a href="#se1v4">Version 4 (normal textures)</a></li>
+      <li><a href="#mex">Mex size and firstMip</a></li>
+      <li><a href="#se1v3">Version 3 (older textures)</a></li>
+      <li><a href="#effects">Effect textures (water, fire)</a></li>
+      <li><a href="#se1rules">Rules for good SS1 textures</a></li>
+      <li><a href="#se23tex">Serious Sam 2 and 3 textures in short</a></li>
+    </ol></li>
+  <li><a href="#formats">Background: the other image formats</a></li>
+  <li><a href="#hdr">Background: what is HDR?</a></li>
+  <li><a href="#cubemaps">Background: skyboxes and cube maps</a>
+    <ol>
+      <li><a href="#cubeidea">The idea of a cube map</a></li>
+      <li><a href="#ssskybox">Serious Sam skyboxes</a></li>
+      <li><a href="#facenames">Face names the program recognizes</a></li>
+      <li><a href="#topface">How the top face fits</a></li>
+      <li><a href="#layouts">Export layouts</a></li>
+    </ol></li>
+  <li><a href="#index">Index</a></li>
+</ol>
+</nav>
+
+<!-- ========================================================= -->
+<h2 id="intro">1. Introduction <a class="back" href="#contents">contents</a></h2>
+
+<h3 id="what">1.1 What the program does</h3>
+<p>The Serious Sam TEX Converter opens the texture files (<code>.tex</code>) of the Serious Sam games, shows them, and saves them in common image formats such as TGA, PNG, PCX, BMP, TIFF, JPG, DDS and HDR. It also works the other way round: any of those images can be saved as a Serious Sam 1 texture, so you can use textures from later games in Serious Sam 1 or make new ones.</p>
+<p>Besides converting, the program can adjust an image (Levels, Auto levels, Resize, channels, normal maps), convert many files at once (Batch conversion) and handle complete skyboxes.</p>
+<p>The original file is never changed. All edits stay in memory until you save, and every edit can be undone.</p>
+
+<h3 id="games">1.2 Supported games and files</h3>
+<table>
+<tr><th>Engine</th><th>Games</th><th>Open</th><th>Save</th></tr>
+<tr><td>Serious Engine 1</td><td>The First Encounter, The Second Encounter</td><td>.tex version 3 and 4, effect textures</td><td>.tex version 4</td></tr>
+<tr><td>Serious Engine 2</td><td>Serious Sam 2</td><td>.tex (all common formats, including DXT)</td><td>-</td></tr>
+<tr><td>Serious Engine 3</td><td>Serious Sam 3: BFE (2011), Serious Sam Fusion 2017 versions</td><td>.tex (including HDR and BC5 normal maps)</td><td>-</td></tr>
+</table>
+<p>Textures can be opened from a normal folder or straight from a <a href="#gro">.gro archive</a>. Ordinary images (TGA, PNG, PCX, BMP, TIFF, JPG, DDS, HDR) can be opened too.</p>
+
+<!-- ========================================================= -->
+<h2 id="using">2. Using the program <a class="back" href="#contents">contents</a></h2>
+
+<h3 id="mainwindow">2.1 The main window</h3>
+<p>The loaded image is shown in the middle. Transparent parts show the background chosen in <a href="#prefs">Preferences</a>; by default a gray-and-white checkerboard. Very small images (smaller than 256 pixels on both sides) are enlarged by a whole number so the pixels stay sharp; the status bar then says <em>Enlarged 4x for visibility</em>. The saved file is never enlarged.</p>
+<p>The <strong>title bar</strong> shows the file name. A <code>*</code> after the name means there are edits that have not been saved yet.</p>
+<p>The <strong>status bar</strong> has three fields:</p>
+<ol>
+  <li>the file name;</li>
+  <li>the size in pixels and the kind of texture, for example <em>1024 x 512 SS3, HDR opaque (32-bit, RGBE)</em> or <em>256 x 256 RGBA (with transparency), SS1 version 4</em>;</li>
+  <li>extra information: what an edit did, what an effect texture shows, or <em>Saved: name</em>.</li>
+</ol>
+<p>The window position and size are remembered for the next start (can be switched off in Preferences).</p>
+
+<h3 id="opening">2.2 Opening files</h3>
+<p>Choose <strong>File &gt; Open</strong> (<kbd>Ctrl+O</kbd>). The file chooser starts in the folder where you last opened something. You can choose:</p>
+<ul>
+  <li>Serious Sam textures (<code>.tex</code>) from all three engines - the program recognizes the engine and version by itself;</li>
+  <li>ordinary images: <code>.tga .png .pcx .bmp .tif .jpg .dds .hdr</code>.</li>
+</ul>
+<p>If the current image has unsaved edits, the program first asks whether they may be discarded.</p>
+
+<h3 id="gro">2.3 Opening textures from a .gro archive</h3>
+<p>Serious Sam stores its files in <code>.gro</code> archives (these are ordinary zip files with another extension). Choose <strong>File &gt; Open from .gro archive</strong> (<kbd>Ctrl+G</kbd>), pick the archive, and a list of all <code>.tex</code> files in it appears. Type part of a name in the search field to filter the list, then double-click a texture or choose it and click OK. The archive itself is not changed.</p>
+
+<h3 id="saving">2.4 Save and Save As</h3>
+<p><strong>Save As</strong> (<kbd>Shift+Ctrl+S</kbd>) asks for a file name and format. The program suggests:</p>
+<ul>
+  <li>the name of the original file without extension, plus a short suffix for edits (for example <code>_levels</code>, <code>_alpha</code>, <code>_NM</code>);</li>
+  <li>the folder where you last saved (or, when chosen in Preferences, the folder of the source file; textures from a .gro are never suggested next to the archive);</li>
+  <li>the default format from Preferences (TGA unless you changed it, because Serious Editor reads TGA).</li>
+</ul>
+<p>You do not have to type an extension: the program adds the extension of the format chosen in the list.</p>
+<p><strong>Save</strong> (<kbd>Ctrl+S</kbd>) saves again to the file you last saved to with Save As, without asking again. If you have not used Save As yet for this image, Save works like Save As.</p>
+<p>Formats in the Save As list: TGA, PNG, PCX, BMP, TIFF, JPG, DDS, Serious Sam 1 .tex and, for HDR images only, Radiance HDR. See <a href="#formats">the other image formats</a> for what each one can store.</p>
+
+<h3 id="dataloss">2.5 Warnings when information is lost</h3>
+<p>Before saving, the program checks whether the chosen format can hold everything, and lists what would be lost:</p>
+<ul>
+  <li><strong>HDR brightness</strong> - every format except .hdr stores the image as shown, with the current exposure and tone. Brightness beyond white is lost.</li>
+  <li><strong>Transparency</strong> - PCX, JPG and BMP (as saved by this program) have no alpha channel.</li>
+  <li><strong>Size</strong> - Serious Sam 1 works best with sizes that are a power of 2.</li>
+  <li><strong>Clipping</strong> - your <a href="#levels">Levels</a> adjustments pushed values to pure black or white.</li>
+  <li><strong>Image detail</strong> - JPG compression slightly changes the image.</li>
+</ul>
+<p>You can save anyway or cancel. The warnings can be switched off in <a href="#prefs">Preferences &gt; Warnings</a>.</p>
+
+<h3 id="savetex">2.6 Saving as a Serious Sam 1 texture</h3>
+<p>Choose <em>Serious Sam 1 texture (*.tex)</em> in Save As. The program writes a version 4 texture with one frame, RGB or RGBA depending on transparency.</p>
+<ul>
+  <li>If the image is larger than 1024 pixels on a side, the program offers to resize it to the largest fitting power of 2 (for example 2048 x 1024 becomes 1024 x 512).</li>
+  <li>If the image came from a Serious Sam 1 texture, the original <a href="#mex">firstMip</a> is kept, so the texture keeps the same size in the game. Otherwise the mex size equals the pixel size.</li>
+</ul>
+
+<h3 id="savedds">2.7 Saving as DDS</h3>
+<p>When you save as DDS, a small window asks for the DDS format:</p>
+<table>
+<tr><th>Choice</th><th>Use it for</th></tr>
+<tr><td>DXT1 / BC1</td><td>images without transparency; small (4 bits per pixel)</td></tr>
+<tr><td>DXT5 / BC3</td><td>images with transparency (8 bits per pixel)</td></tr>
+<tr><td>BC5 / ATI2</td><td>normal maps: only red and green are stored, blue is rebuilt by the game</td></tr>
+<tr><td>BGRA 32-bit</td><td>no quality loss, but 4 to 8 times larger</td></tr>
+</table>
+<p>The program preselects the best choice for the image. <em>Generate mipmaps</em> also stores the smaller versions that games use for distant surfaces; leave it on for games. <kbd>Ctrl+S</kbd> reuses the last choice.</p>
+
+<!-- ========================================================= -->
+<h2 id="menus">3. Menu reference and keyboard shortcuts <a class="back" href="#contents">contents</a></h2>
+<table>
+<tr><th>Menu</th><th>Item</th><th>Shortcut</th><th>What it does</th></tr>
+<tr><td rowspan="5">File</td><td>Open</td><td><kbd>Ctrl+O</kbd></td><td><a href="#opening">Open a texture or image</a></td></tr>
+<tr><td>Open from .gro archive...</td><td><kbd>Ctrl+G</kbd></td><td><a href="#gro">Choose a texture inside a .gro</a></td></tr>
+<tr><td>Save</td><td><kbd>Ctrl+S</kbd></td><td><a href="#saving">Save again to the same file</a></td></tr>
+<tr><td>Save As...</td><td><kbd>Shift+Ctrl+S</kbd></td><td><a href="#saving">Save with a new name or format</a></td></tr>
+<tr><td>Quit</td><td><kbd>Ctrl+Q</kbd></td><td>Close the program (asks first if there are unsaved edits)</td></tr>
+<tr><td rowspan="3">Edit</td><td>Undo</td><td><kbd>Ctrl+Z</kbd></td><td><a href="#undo">Undo the last edit</a></td></tr>
+<tr><td>Redo</td><td><kbd>Ctrl+Y</kbd></td><td>Do the undone edit again</td></tr>
+<tr><td>Revert to original</td><td></td><td>Back to the image as it was opened</td></tr>
+<tr><td rowspan="2">Adjust</td><td>Levels...</td><td><kbd>Ctrl+L</kbd></td><td><a href="#levels">Black point, gamma and white point</a></td></tr>
+<tr><td>Auto levels</td><td></td><td><a href="#autolevels">Stretch to the full range without clipping</a></td></tr>
+<tr><td rowspan="6">HDR</td><td>Exposure +1 EV</td><td><kbd>Ctrl+Up</kbd></td><td rowspan="6"><a href="#hdrmenu">Only for HDR images</a></td></tr>
+<tr><td>Exposure -1 EV</td><td><kbd>Ctrl+Down</kbd></td></tr>
+<tr><td>Reset exposure</td><td><kbd>Ctrl+0</kbd></td></tr>
+<tr><td>Tone: Editor (clip)</td><td></td></tr>
+<tr><td>Tone: Filmic</td><td></td></tr>
+<tr><td>Switch tone</td><td><kbd>Ctrl+T</kbd></td></tr>
+<tr><td rowspan="7">Tools</td><td>Histogram</td><td><kbd>Ctrl+I</kbd></td><td><a href="#histogram">Histogram window</a></td></tr>
+<tr><td>Channels &gt;</td><td></td><td><a href="#channels">Split and combine color channels</a></td></tr>
+<tr><td>Normal map &gt;</td><td></td><td><a href="#normalmap">Convert normal maps</a></td></tr>
+<tr><td>Resize...</td><td><kbd>Ctrl+R</kbd></td><td><a href="#resize">Change the size</a></td></tr>
+<tr><td>Skybox...</td><td><kbd>Ctrl+K</kbd></td><td><a href="#skyboxwin">View and export a whole skybox</a></td></tr>
+<tr><td>Batch conversion</td><td><kbd>Ctrl+B</kbd></td><td><a href="#batch">Convert many files at once</a></td></tr>
+<tr><td>Preferences...</td><td><kbd>Ctrl+P</kbd></td><td><a href="#prefs">Settings</a></td></tr>
+<tr><td rowspan="2">Help</td><td>Help</td><td><kbd>Ctrl+H</kbd></td><td>Opens this help file</td></tr>
+<tr><td>About</td><td></td><td>Program name and version</td></tr>
+</table>
+
+<!-- ========================================================= -->
+<h2 id="editing">4. Editing and Undo <a class="back" href="#contents">contents</a></h2>
+
+<h3 id="undo">4.1 Undo, Redo and Revert to original</h3>
+<p>Every edit (Levels, Auto levels, Resize, Channels, Normal map) becomes a step in a history. The menu shows which step will be undone, for example <em>Undo Levels</em>.</p>
+<ul>
+  <li><strong>Undo</strong> (<kbd>Ctrl+Z</kbd>) goes one step back, <strong>Redo</strong> (<kbd>Ctrl+Y</kbd>) one step forward.</li>
+  <li>If you make a new edit after Undo, the undone steps are dropped (as in every program).</li>
+  <li><strong>Revert to original</strong> goes back to the image as it was opened.</li>
+  <li>The original is always kept. The number of steps is limited (30 by default, see <a href="#prefs">Preferences</a>); when the limit is reached, the oldest edit is dropped, never the original. Each step of a 2048 x 2048 image uses about 16 MB of memory.</li>
+  <li>Opening another file or quitting with unsaved edits asks <em>Discard them?</em> first.</li>
+</ul>
+<div class="note">An HDR image becomes an ordinary image after an edit (it keeps the current exposure). Saving as .hdr is then no longer possible; Undo back to the original makes it possible again. Changing the HDR exposure or tone reloads the original HDR image and starts a new history.</div>
+
+<h3 id="levels">4.2 Levels</h3>
+<p><strong>Adjust &gt; Levels</strong> (<kbd>Ctrl+L</kbd>) changes the brightness range of the image. The window shows the histogram of the image with three markers below it:</p>
+<ul>
+  <li><strong>black</strong> (left triangle): this input value and everything darker becomes the output black;</li>
+  <li><strong>gamma</strong> (gray triangle, middle): moves the mid tones; it sits where the result becomes middle gray. A gamma above 1 makes the image lighter, below 1 darker;</li>
+  <li><strong>white</strong> (right triangle): this input value and everything lighter becomes the output white.</li>
+</ul>
+<p>Drag the markers with the mouse or type the numbers in <em>Input: Black, Gamma, White</em>. <em>Output: Black, White</em> sets the darkest and lightest value of the result (for example output white 200 makes the image dimmer).</p>
+<p><strong>Channel</strong>: <em>RGB</em> changes all colors together; <em>Red</em>, <em>Green</em> and <em>Blue</em> change one color only (useful to correct a color cast). Each channel keeps its own settings; the RGB setting is applied on top of the separate ones. The alpha channel (transparency) is never changed.</p>
+<p>The main window shows the result while you work. <strong>Auto</strong> fills in the <a href="#autolevels">Auto levels</a> values, <strong>Reset</strong> sets everything back. <strong>Cancel</strong> leaves the image as it was; <strong>OK</strong> applies the change as one Undo step.</p>
+<p>Below the histogram the program shows how many values are clipped (see <a href="#clipping">clipping</a>). The parts of the histogram that would be clipped are shaded red. Tick <strong>Show clipping</strong> to see in the main window which pixels become pure white (red) or pure black (blue).</p>
+
+<h3 id="autolevels">4.3 Auto levels</h3>
+<p><strong>Adjust &gt; Auto levels</strong> finds the darkest and the lightest value in the image (red, green and blue together) and stretches that range to 0 - 255. Nothing is clipped: the darkest pixel becomes exactly black and the lightest exactly white. Fully transparent pixels are not counted. The colors keep their balance because all three channels get the same stretch.</p>
+<p>If the image already runs from black to white, Auto levels says there is nothing to change.</p>
+
+<h3 id="clipping">4.4 Clipping and merged tones</h3>
+<p><strong>Clipping</strong> means that different values all become pure black (0) or pure white (255). After saving, the difference between them is gone for good. That is why:</p>
+<ul>
+  <li>Auto levels never clips;</li>
+  <li>Levels shows the clipping live in red (<em>Clipping: 1234 values (0.50%)</em>) or <em>Clipping: none</em> in green;</li>
+  <li>OK asks <em>Apply anyway?</em> when the adjustment clips (can be switched off in Preferences);</li>
+  <li>the save warning mentions edits with clipping.</li>
+</ul>
+<p>The count is per color value: a pixel whose red and green are both clipped counts twice.</p>
+<p><strong>Merged tones</strong>: an image has 256 steps per channel. If you make the range narrower (for example output 50 - 200), some neighboring steps fall together. This is not clipping, but it is also not reversible after saving. Until you save, Undo always brings the original back.</p>
+
+<h3 id="resize">4.5 Resize</h3>
+<p><strong>Tools &gt; Resize</strong> (<kbd>Ctrl+R</kbd>) shows the current size and lets you choose a new width and height from a list of powers of 2, or type any number. With <em>Keep aspect ratio</em> the other side follows. <em>Fit Serious Sam 1</em> chooses the largest power-of-2 size of at most 1024 with about the same proportions.</p>
+<p>Reducing is done in good quality: the image is halved step by step by averaging 2 x 2 pixels (like mipmaps), so fine details do not flicker. Transparent pixels count less for the color, so no dark edges appear around transparent parts.</p>
+
+<h3 id="channels">4.6 Channels</h3>
+<p>Games use the channels of a texture differently. In Serious Sam 3, for example, the shininess (gloss) is stored in the alpha of the <code>_GM</code> textures, while another game may expect a separate gray gloss image. <strong>Tools &gt; Channels</strong> offers:</p>
+<ul>
+  <li><strong>Extract red / green / blue / alpha as grayscale</strong> - one channel as a gray, fully opaque image;</li>
+  <li><strong>Load alpha from image...</strong> - use the brightness of another image (a mask) as transparency: white = opaque, black = transparent. A mask of another size is scaled first;</li>
+  <li><strong>Invert alpha</strong> - transparent becomes opaque and the other way round;</li>
+  <li><strong>Remove alpha (make opaque)</strong> - everything fully opaque; the colors under transparent parts become visible.</li>
+</ul>
+
+<h3 id="normalmap">4.7 Normal map tools</h3>
+<p>A normal map stores a direction per pixel as a color: red = X (left/right), green = Y (up/down), blue = Z (towards you). The values 0 - 255 mean -1 to +1, so "straight ahead" is (128, 128, 255): the familiar light blue. <strong>Tools &gt; Normal map</strong> offers:</p>
+<ul>
+  <li><strong>Flip green (DirectX &lt;-&gt; OpenGL)</strong> - games differ here: DirectX style has green pointing down, OpenGL style up. If bumps look like dents, flip green;</li>
+  <li><strong>Flip red</strong> - rarely needed;</li>
+  <li><strong>Rebuild blue (Z) from red and green</strong> - needed when only X and Y were stored, as in BC5 (other programs show those maps olive green);</li>
+  <li><strong>Normalize</strong> - gives every direction length 1 again (after scaling they become slightly too short);</li>
+  <li><strong>Create from height map...</strong> - makes a normal map from the brightness of the image (light = high, dark = low). You enter a strength (1 = subtle, 2 = normal, 5 = strong; the default is set in Preferences). The edges wrap around, because textures are usually repeated. The result is OpenGL style (green up). Useful for Serious Sam 1 textures, which have no normal maps.</li>
+</ul>
+
+<!-- ========================================================= -->
+<h2 id="hdrmenu">5. The HDR menu <a class="back" href="#contents">contents</a></h2>
+<p>These items only work when an <a href="#hdr">HDR image</a> is loaded (a Serious Sam 3 HDR texture or a .hdr file). Without one, the program shows a message and nothing changes.</p>
+<ul>
+  <li><strong>Exposure +1 EV / -1 EV</strong> (<kbd>Ctrl+Up</kbd> / <kbd>Ctrl+Down</kbd>) - each step makes the image twice as light or twice as dark.</li>
+  <li><strong>Reset exposure</strong> (<kbd>Ctrl+0</kbd>) - back to 0 EV. At 0 EV the result is the same as a TGA export from Serious Editor.</li>
+  <li><strong>Tone: Editor (clip)</strong> - like Serious Editor: everything brighter than white is cut off.</li>
+  <li><strong>Tone: Filmic</strong> - bright parts are rolled off softly, as in games (ACES film curve), so clouds around the sun keep some detail.</li>
+  <li><strong>Switch tone</strong> (<kbd>Ctrl+T</kbd>) - switches between the two.</li>
+</ul>
+<p>The exposure and tone are one setting for all HDR files, so the faces of a skybox always fit together. They are remembered for the next start, or set to fixed values in Preferences.</p>
+
+<!-- ========================================================= -->
+<h2 id="histogram">6. The Histogram window <a class="back" href="#contents">contents</a></h2>
+<p><strong>Tools &gt; Histogram</strong> (<kbd>Ctrl+I</kbd>) opens a window next to the main window. A histogram counts how many pixels have each brightness (0 - 255): dark is on the left, light on the right, and the higher the bar, the more pixels. The window stays open and follows when you open another image or make an edit.</p>
+<p>Choices in the list: <em>RGB</em> (red, green and blue over each other), <em>Red</em>, <em>Green</em>, <em>Blue</em>, <em>Luminance</em> (brightness as the eye sees it), <em>Alpha</em> (transparency) and, for HDR images, <em>HDR brightness (stops)</em>: the real brightness of the HDR data in stops, with a line where the white point of the current exposure lies.</p>
+
+<!-- ========================================================= -->
+<h2 id="batch">7. The Batch conversion window <a class="back" href="#contents">contents</a></h2>
+<p><strong>Tools &gt; Batch conversion</strong> (<kbd>Ctrl+B</kbd>) converts many files in one go. The main window is not changed.</p>
+<h4>The file list (left)</h4>
+<ul>
+  <li><strong>Add files...</strong> - choose one or more files;</li>
+  <li><strong>Add folder...</strong> - all files of the source format in a folder, including subfolders;</li>
+  <li><strong>Add from .gro...</strong> - choose textures in an archive (Ctrl+click or Shift+click for several);</li>
+  <li><strong>Add all from .gro...</strong> - every texture in an archive;</li>
+  <li>drag files or folders from the file manager onto the list;</li>
+  <li><strong>Remove selected</strong> and <strong>Remove all</strong> - clear the list (the files themselves are not touched).</li>
+</ul>
+<p>Click a line to see a preview and its properties on the right.</p>
+<h4>Settings (right)</h4>
+<table>
+<tr><th>Setting</th><th>Meaning</th></tr>
+<tr><td>Source format</td><td>Which kind of file may be in the list. Changing it removes files of another kind. The .gro buttons only work for .tex.</td></tr>
+<tr><td>Output format</td><td>TGA, PNG, PCX, BMP, TIFF, JPG, DDS, Serious Sam 1 .tex or HDR. For DDS the format is chosen per file: BC5 for normal maps, DXT5 with transparency, otherwise DXT1, always with mipmaps. HDR output is only possible for HDR sources; other files are skipped.</td></tr>
+<tr><td>Use source folder as output folder</td><td>Save each file next to its source. Not possible for files from a .gro; then choose an output folder.</td></tr>
+<tr><td>Output folder...</td><td>One folder for all results.</td></tr>
+<tr><td>Force overwriting existing files</td><td>Without it, files that already exist are skipped.</td></tr>
+<tr><td>Serious Sam 1 .tex: resize textures larger than 1024 pixels</td><td>Larger textures are resized to fit; without it they are skipped.</td></tr>
+</table>
+<p><strong>Convert Selected</strong> converts the selected lines, <strong>Convert All</strong> the whole list. During conversion the Close button becomes <strong>Stop</strong>. Afterwards a report lists how many files were converted, skipped and failed, and why.</p>
+<h4>Safety checks</h4>
+<ul>
+  <li>A source file is never overwritten by its own result.</li>
+  <li>When files with the same name (from different folders or archives) would end up as the same output file, the program asks: number them (<code>name_2</code>, <code>name_3</code>...), convert only the first of each name, or stop.</li>
+  <li>For PCX, JPG and BMP output the program warns first that transparency will be lost.</li>
+</ul>
+<p>All settings of this window, including the output folder, are remembered for the next time.</p>
+
+<!-- ========================================================= -->
+<h2 id="skyboxwin">8. The Skybox window <a class="back" href="#contents">contents</a></h2>
+<p><strong>Tools &gt; Skybox</strong> (<kbd>Ctrl+K</kbd>) shows a complete <a href="#cubemaps">skybox</a> and exports it. If the image in the main window is a skybox face, that set is loaded straight away.</p>
+<table>
+<tr><th>Control</th><th>What it does</th></tr>
+<tr><td>Open face...</td><td>Choose any one face of a set (.tex, .hdr, .tga, .png or .dds). The program finds the other faces by their <a href="#facenames">names</a> in the same folder.</td></tr>
+<tr><td>From .gro...</td><td>The same, for a face inside a .gro archive.</td></tr>
+<tr><td>Exposure: - / number / +</td><td>The HDR exposure in EV for all faces together. Type a number or use the buttons (one stop per click).</td></tr>
+<tr><td>Auto (whole set)</td><td>Calculates one exposure for the whole set: the average brightness of all faces together becomes middle gray. Every face gets the same exposure, so the edges keep fitting.</td></tr>
+<tr><td>Editor (clip) / Filmic</td><td>The <a href="#hdrmenu">tone</a> for bright parts.</td></tr>
+<tr><td>Preview</td><td>The set as a cross: the top face U above N, with W N E S below it and the bottom face D (if present) below N.</td></tr>
+<tr><td>Export</td><td>The kind of result: <em>Separate faces</em>, <em>Strip</em>, <em>Cross</em> or <em>360 degree panorama</em> (see <a href="#layouts">export layouts</a>).</td></tr>
+<tr><td>Format</td><td>TGA, PNG, TIFF, Radiance HDR (keeps all brightness; only when all faces are HDR) or Serious Sam 1 .tex (only for separate faces, because the combined images are larger than 1024 pixels).</td></tr>
+<tr><td>Export...</td><td>For separate faces you choose a folder and the faces keep their names with the new extension. For the other kinds you choose a file name; the suggestion is the set name plus <code>_strip</code>, <code>_cross</code> or <code>_panorama</code>.</td></tr>
+</table>
+<p>After loading, the program checks how the faces fit together by comparing their edges. If the top face is turned, it is rotated to fit, and you get a message such as <em>Top face turned 90 degrees to fit</em>. If the side faces seem to be in reverse order, or the top face does not clearly fit, the program warns you to check the preview. If faces are missing (at least N, E, S, W and the top are needed), they stay empty.</p>
+<p>The exposure and tone chosen here are also used in the main window afterwards.</p>
+
+<!-- ========================================================= -->
+<h2 id="prefs">9. Preferences and remembered settings <a class="back" href="#contents">contents</a></h2>
+<p><strong>Tools &gt; Preferences</strong> (<kbd>Ctrl+P</kbd>) has three tabs. <strong>Defaults</strong> puts all choices back to the standard values; nothing is stored until you click <strong>OK</strong>.</p>
+<h4>General</h4>
+<table>
+<tr><th>Setting</th><th>Default</th><th>Meaning</th></tr>
+<tr><td>Remember the window position and size</td><td>on</td><td>The main window opens where you left it (also maximized). If that place is on a screen that is no longer there, the window opens in the middle.</td></tr>
+<tr><td>Background behind transparent areas</td><td>Checkerboard</td><td>Checkerboard, black, gray or white. Only for viewing; never saved in a file.</td></tr>
+<tr><td>Undo steps</td><td>30</td><td>2 to 200. More steps use more memory.</td></tr>
+<tr><td>Normal map from height map, strength</td><td>2</td><td>The value suggested by <a href="#normalmap">Create from height map</a>.</td></tr>
+<tr><td>HDR textures when the program starts</td><td>same as last time</td><td>Either the exposure and tone you used last, or always a fixed exposure (EV) and tone.</td></tr>
+</table>
+<h4>Saving</h4>
+<table>
+<tr><th>Setting</th><th>Default</th><th>Meaning</th></tr>
+<tr><td>Default format for Save As</td><td>TGA</td><td>The format preselected in the Save As window.</td></tr>
+<tr><td>Save As suggests</td><td>the folder where you last saved</td><td>Or always the folder of the source file.</td></tr>
+</table>
+<h4>Warnings</h4>
+<table>
+<tr><th>Setting</th><th>Default</th><th>Meaning</th></tr>
+<tr><td>Warn when saving loses information</td><td>on</td><td>The <a href="#dataloss">save warnings</a>, including the DDS transparency warning.</td></tr>
+<tr><td>Serious Sam 1 .tex: offer to resize textures larger than 1024 pixels</td><td>on</td><td>When off, larger textures are saved as they are.</td></tr>
+<tr><td>Levels: ask before applying an adjustment that clips</td><td>on</td><td>The <em>Apply anyway?</em> question in Levels.</td></tr>
+</table>
+<h4>Remembered without asking</h4>
+<p>The program also remembers: the last folder used for opening and the last folder used for saving (separately), the HDR exposure and tone, the last DDS choice, and all settings of the Batch window.</p>
+<h4>Where the settings are stored</h4>
+<p>In a plain text file named <code>TexConverter.prefs</code>, one <code>name = value</code> per line:</p>
+<ul>
+  <li>Windows: <code>C:\Users\&lt;name&gt;\AppData\Roaming\TexConverter\TexConverter.prefs</code></li>
+  <li>Linux: in the program data folder in your home folder (a hidden folder), in a subfolder <code>TexConverter</code>.</li>
+</ul>
+<p>Delete the file to start again with all default settings.</p>
+
+<!-- ========================================================= -->
+<h2 id="se1tex">10. Background: the Serious Sam 1 .tex format <a class="back" href="#contents">contents</a></h2>
+<p>Serious Sam: The First Encounter and The Second Encounter (Serious Engine 1) use their own texture format. A file is made of <em>chunks</em>: a four-letter name followed by data. All numbers are 32-bit integers ("LONG"), least significant byte first.</p>
+
+<h3 id="se1v4">10.1 Version 4 (normal textures)</h3>
+<table>
+<tr><th>Offset</th><th>Content</th></tr>
+<tr><td>0</td><td><code>TVER</code> + version (4)</td></tr>
+<tr><td>8</td><td><code>TDAT</code> + flags, mex width, mex height, number of mipmap levels, firstMip, number of frames</td></tr>
+<tr><td>36</td><td><code>FRMS</code> + the pixels of each frame: only the largest picture, 3 bytes (R, G, B) or 4 bytes (R, G, B, A) per pixel</td></tr>
+<tr><td>end</td><td><code>ANIM</code> block with animation data (names, speed and frame order of animated textures)</td></tr>
+</table>
+<p><strong>Flags</strong>: bit 0 (value 1) = the texture has an alpha channel (transparency); bit 1 (value 2) = "32-bit", only a hint for the game that does not change how the pixels are stored.</p>
+<p>The game makes the smaller mipmap levels itself when it loads the texture, so only the largest picture is in the file.</p>
+<p><strong>Frames</strong>: an animated texture has several frames (pictures). The program shows the first one.</p>
+
+<h3 id="mex">10.2 Mex size and firstMip</h3>
+<p>The width and height in the file are not pixels but <em>mex</em>: the unit Serious Engine 1 uses to decide how large the texture appears on a surface. The pixel size follows from it:</p>
+<pre>pixel size = mex size / 2^firstMip      (mex size = pixel size x 2^firstMip)</pre>
+<p>Example: mex 1024 x 1024 with firstMip 2 is a 256 x 256 pixel image that covers the same area as a 1024 x 1024 texture with firstMip 0. This is how SE1 lets a low-resolution texture cover a large surface. When you save an SE1 texture again, the program keeps the original firstMip, so the size in the game stays the same; after Resize, the firstMip is adjusted accordingly.</p>
+
+<h3 id="se1v3">10.3 Version 3 (older textures)</h3>
+<table>
+<tr><th>Offset</th><th>Content</th></tr>
+<tr><td>0</td><td><code>TVER</code> + version (3)</td></tr>
+<tr><td>8</td><td><code>TDAT</code> + flags, mex width, mex height, mipmap levels, mipmap levels (2nd), firstMip, frame size, number of frames</td></tr>
+<tr><td>44</td><td><code>FRMS</code> + per frame <em>all</em> mipmap levels, 2 bytes per pixel</td></tr>
+</table>
+<p>The pixels are 16-bit colors: 5 bits red, 5 bits green, 5 bits blue (32 steps per color instead of 256). The program reads these and shows them as normal 24-bit images; it always saves version 4.</p>
+
+<h3 id="effects">10.4 Effect textures (water, fire)</h3>
+<p>Some version 4 textures contain an effect instead of a picture: at offset 36 there is an <code>FXDT</code> chunk with the effect type, the size of a calculation buffer and the effect sources, then an <code>FXBF</code> buffer, an <code>ANIM</code> block and the name of a <em>base texture</em> (<code>DFNM</code>). The real image is calculated by the game while you play. The program shows the base texture if it is found next to the file (following the chain if the base is itself an effect), and otherwise the buffer as a gray image. The status bar says what is shown.</p>
+
+<h3 id="se1rules">10.5 Rules for good SS1 textures</h3>
+<ul>
+  <li>Use sizes that are a <strong>power of 2</strong>: 16, 32, 64, 128, 256, 512, 1024. Width and height may differ (for example 512 x 256).</li>
+  <li>Keep each side at <strong>1024 pixels or less</strong>.</li>
+  <li>Serious Editor imports TGA and PCX; the program's PCX files use 24-bit RLE, which the editor accepts.</li>
+</ul>
+
+<h3 id="se23tex">10.6 Serious Sam 2 and 3 textures in short</h3>
+<p>Serious Engine 2 and 3 store textures in Croteam's general storage format, which starts with <code>CTSEMETA</code> (sometimes preceded by a signature <code>SIGSTRM1</code>), followed by a version text such as <em>Serious Sam 2</em>, a description of all data types, and the objects. The texture data sits around a chunk named <code>STAR</code>: width, height, flags and format just before it, the pixels after it.</p>
+<ul>
+  <li><strong>Serious Sam 2</strong>: pixels are packed with zlib. Uncompressed formats store B, G, R(, A) of the largest picture; compressed formats store DXT1, DXT3 or DXT5 with all mipmaps.</li>
+  <li><strong>Serious Sam 3 / Fusion</strong>: pixels are not packed and all mipmaps are present. Formats include opaque and translucent 32-bit, grayscale, alpha only, DXT1, DXT3, DXT5, BC5 normal maps and HDR (RGBE).</li>
+  <li><strong>Serious Sam 3: BFE (2011)</strong>: like Fusion, but each channel can be stored separately with each byte as the difference from the previous one (delta coding), which packs better in a .gro.</li>
+</ul>
+<p>The status bar shows the format name as Serious Editor calls it, for example <em>compressed translucent (8-bit, DXT5)</em>.</p>
+
+<!-- ========================================================= -->
+<h2 id="formats">11. Background: the other image formats <a class="back" href="#contents">contents</a></h2>
+<table>
+<tr><th>Format</th><th>Transparency</th><th>Quality</th><th>Notes</th></tr>
+<tr><td id="tga"><strong>TGA</strong> - Truevision Graphics Adapter</td><td>yes (32-bit)</td><td>lossless</td><td>Read by Serious Editor; the default format. Saved uncompressed, 24-bit or 32-bit with transparency, as TGA version 2. Read: 8-bit gray or palette, 16, 24 and 32-bit, uncompressed or RLE, either row order. The program has its own TGA reader so it works the same on Windows and Linux.</td></tr>
+<tr><td id="png"><strong>PNG</strong> - Portable Network Graphics</td><td>yes</td><td>lossless, compressed</td><td>Good general format for sharing; smaller than TGA.</td></tr>
+<tr><td id="pcx"><strong>PCX</strong> - PiCture eXchange</td><td>no</td><td>lossless</td><td>An old format that the Serious Sam editors can import. Saved as 24-bit with RLE packing. Read: 8-bit with palette, 24-bit and 32-bit, packed or not.</td></tr>
+<tr><td id="bmp"><strong>BMP</strong> - Microsoft Bitmap</td><td>no (as saved)</td><td>lossless, large</td><td>Always saved as 24-bit. A 32-bit BMP with alpha exists, but most programs ignore the fourth byte.</td></tr>
+<tr><td id="tif"><strong>TIFF</strong> - Tagged Image File Format</td><td>yes</td><td>lossless</td><td>Saved as uncompressed baseline TIFF, which every program can read. Simple TIFFs are read by the program itself so semi-transparent pixels keep their color.</td></tr>
+<tr><td id="jpg"><strong>JPG</strong> - Joint Photographic Experts Group</td><td>no</td><td>lossy</td><td>Small files, but compression slightly changes details and sharp edges. Saved at quality 9 of 10. Not suitable for textures you want to edit further.</td></tr>
+<tr><td id="dds"><strong>DDS</strong> - DirectDraw Surface</td><td>depends on the format</td><td>DXT/BC: lossy; BGRA: lossless</td><td>The texture format read by almost all games and engines. It can hold mipmaps. See <a href="#dxt">DXT compression</a> below. Read: DXT1, DXT3, DXT5, ATI2/BC5 and 32-bit BGRA (largest picture only).</td></tr>
+<tr><td id="hdrformat"><strong>HDR</strong> - Radiance RGBE</td><td>no</td><td>keeps all brightness</td><td>For HDR images only; see <a href="#hdr">what is HDR</a>. The program keeps the original HDR data, so saving as .hdr is lossless (within 0.4%).</td></tr>
+</table>
+
+<h3 id="dxt">DXT (BC) compression</h3>
+<p>DXT divides an image into blocks of 4 x 4 pixels. Per block it stores two colors (16-bit: 5 bits red, 6 green, 5 blue) and, per pixel, 2 bits that say which of four colors the pixel gets: the two stored colors or one of two colors in between. That makes the files much smaller, and graphics cards can use them directly, but colors in a block are approximated.</p>
+<table>
+<tr><th>Name</th><th>Also called</th><th>Per block</th><th>Use</th></tr>
+<tr><td>DXT1</td><td>BC1</td><td>8 bytes (4 bits per pixel)</td><td>color, no or 1-bit transparency</td></tr>
+<tr><td>DXT3</td><td>BC2</td><td>16 bytes</td><td>color + alpha in 16 steps</td></tr>
+<tr><td>DXT5</td><td>BC3</td><td>16 bytes</td><td>color + smooth alpha</td></tr>
+<tr><td>BC5</td><td>ATI2</td><td>16 bytes</td><td>two channels (X and Y of a normal map); Z is calculated</td></tr>
+</table>
+
+<h3 id="mipmaps">Mipmaps</h3>
+<p>Mipmaps are smaller copies of a texture, each half the size of the previous one, down to 1 x 1 pixel. A game uses a smaller copy for surfaces far away, which looks calmer and is faster. DDS and SE2/SE3 textures can store them; Serious Sam 1 makes them itself while loading. The program always shows the largest picture.</p>
+
+<!-- ========================================================= -->
+<h2 id="hdr">12. Background: what is HDR? <a class="back" href="#contents">contents</a></h2>
+<p>An ordinary image stores each color as a number from 0 to 255. Pure white (255) is the brightest thing that can be stored: a white wall and the sun get the same value. This is <em>low dynamic range</em>.</p>
+<p><strong>HDR</strong> (<em>high dynamic range</em>) stores how bright light really is, without an upper limit. In a sky texture the sun can be thousands of times brighter than the clouds. Serious Sam 3 uses HDR textures for skies, so the game can light the level with them and choose the exposure itself.</p>
+<h4>Stops and EV</h4>
+<p>Brightness differences are counted in <strong>stops</strong> (photographers' <strong>EV</strong>, exposure value). One stop is a factor of two: +1 EV is twice as light, +3 EV eight times, -1 EV half as light.</p>
+<h4>How HDR is stored: RGBE</h4>
+<p>Each pixel has three color bytes (R, G, B) and one shared exponent E that says how many stops the three must be scaled. This is the format of Radiance <code>.hdr</code> files, where E counts whole stops. Serious Sam 3 uses the same idea, but its E counts in steps of 1/8 stop:</p>
+<pre>value = (channel + 0.5) / 256 x 2^((E - 127.5) / 8)</pre>
+<p>The program converts this exactly into a Radiance .hdr file when you save as .hdr.</p>
+<h4>From HDR to a normal image: exposure and tone mapping</h4>
+<p>A screen and an ordinary file can only show 0 - 255, so the program has to choose which part of the brightness to show:</p>
+<ol>
+  <li><strong>Exposure</strong>: multiply all values by 2^EV (like the shutter of a camera).</li>
+  <li><strong>Tone</strong>: <em>Editor (clip)</em> cuts everything above white off, exactly as Serious Editor does. <em>Filmic</em> rolls bright parts off gradually (the ACES film curve), so they keep detail instead of becoming a flat white area.</li>
+  <li><strong>Gamma 2.2</strong>: the result is converted for the screen.</li>
+</ol>
+<p>At 0 EV with Editor (clip), the image matches a TGA export from Serious Editor. Every format except .hdr stores the image the way you see it, with the chosen exposure and tone; that is why the save warning mentions HDR brightness.</p>
+<p>The exposure is one value for all HDR files, so the faces of a skybox always match. Use the <em>HDR brightness (stops)</em> view of the <a href="#histogram">histogram</a> to see where the light really is, and <em>Auto (whole set)</em> in the <a href="#skyboxwin">Skybox window</a> for a good exposure for a whole sky.</p>
+
+<!-- ========================================================= -->
+<h2 id="cubemaps">13. Background: skyboxes and cube maps <a class="back" href="#contents">contents</a></h2>
+
+<h3 id="cubeidea">13.1 The idea of a cube map</h3>
+<p>A <strong>skybox</strong> is the sky around the player. The game draws the inside of a large cube around the camera, with a picture on each face. Because the camera is always in the middle, you never see the corners and the sky looks round. Such a set of six square pictures is called a <strong>cube map</strong>.</p>
+<p>The faces are named after the direction they face. This program uses compass directions, with the axes of the common (OpenGL) cube map naming:</p>
+<table>
+<tr><th>Face</th><th>Direction</th><th>Axis</th><th>Cube map name</th></tr>
+<tr><td>N</td><td>north (front)</td><td>+Z</td><td><code>pz</code></td></tr>
+<tr><td>E</td><td>east (right)</td><td>+X</td><td><code>px</code></td></tr>
+<tr><td>S</td><td>south (back)</td><td>-Z</td><td><code>nz</code></td></tr>
+<tr><td>W</td><td>west (left)</td><td>-X</td><td><code>nx</code></td></tr>
+<tr><td>U</td><td>top (up; called C, ceiling, in Serious Sam 3 files)</td><td>+Y</td><td><code>py</code></td></tr>
+<tr><td>D</td><td>bottom (down)</td><td>-Y</td><td><code>ny</code></td></tr>
+</table>
+<p>Going round from left to right the sides follow each other as W, N, E, S: the right edge of each face continues on the left edge of the next one.</p>
+
+<h3 id="ssskybox">13.2 Serious Sam skyboxes</h3>
+<ul>
+  <li><strong>Serious Sam 3</strong>: the skybox has no bottom. The side faces N, E, S and W store only the <em>upper half</em> of the cube side, for example 1024 x 512 pixels; their bottom edge is the horizon. The top face (file letter C, shown as U in the program) is square, for example 1024 x 1024. Skies are usually HDR.</li>
+  <li><strong>Serious Sam 1 and 2</strong>: the side faces are complete squares with the horizon in the middle. The sets have five faces: four sides and the top.</li>
+</ul>
+<figure>
+<div class="faces" style="grid-template-columns:repeat(4,90px)">
+  <div class="e"></div><div class="top" style="height:90px;display:flex;align-items:center;justify-content:center">U (top)</div><div class="e"></div><div class="e"></div>
+  <div class="half">W</div><div class="half">N</div><div class="half">E</div><div class="half">S</div>
+</div>
+<figcaption>A Serious Sam 3 skybox unfolded: the top face above N, the half-height sides below it. The bottom edge of the sides is the horizon.</figcaption>
+</figure>
+
+<h3 id="facenames">13.3 Face names the program recognizes</h3>
+<p>There is no single international standard for skybox names. The program therefore recognizes the common conventions: the cube map axes of OpenGL and DirectX (+X, -X, ...), the short Quake / Half-Life / Source suffixes, the words used by Unity and many skybox packs (Front, Back, Left, Right, Up, Down), compass words, Croteam's letters and numbered sets. Choose any one face; the program looks for the others in the same folder (or archive) by name:</p>
+<table>
+<tr><th>Kind</th><th>Example</th><th>Faces</th><th>Order</th></tr>
+<tr><td>Letters (SS3)</td><td><code>HDR_Cloudy04_N.tex</code>, <code>HDR_Cloudy05_C--Big.tex</code></td><td>the letter after the last <code>_</code>: N, E, S, W, top as C or U, bottom as D</td><td>by letter</td></tr>
+<tr><td>Words</td><td><code>1_3_nightFront.tex</code>, <code>Space2_North.tex</code></td><td>Front or Forward or North, Right or East, Back or South, Left or West, Up or Top or Ceiling, Down or Bottom or Floor (upper or lower case)</td><td>Front/North = N, Right/East = E, Back/South = S, Left/West = W, Up/Top = U, Down/Bottom = D</td></tr>
+<tr><td>Quake / Half-Life / Source</td><td><code>sky_rt.tga</code>, <code>desert_up.tex</code></td><td>_ft, _rt, _bk, _lf, _up, _dn (with a _ or - before them)</td><td>ft = N, rt = E, bk = S, lf = W, up = U, dn = D</td></tr><tr><td>Cube map (OpenGL / DirectX)</td><td><code>skypx.png</code>, <code>cube_posx.tex</code></td><td>px, nx, py, ny, pz, nz or posx, negx, posy, negy, posz, negz at the end of the name</td><td>see the table in <a href="#cubeidea">13.1</a></td></tr>
+<tr><td>Numbers (SS1, SS2)</td><td><code>Storm1.tex</code> ... <code>Storm5.tex</code>, <code>MDG01_Daylight_01</code> ... <code>_05</code>, <code>Frame0001</code> ... <code>Frame0005</code></td><td>five numbered files in a row (starting at 0 or 1)</td><td>N, E, S, W, top</td></tr>
+</table>
+<p>The order of the numbered sets was checked on the original game files by comparing the edges of the faces. The word names were tested with complete sets; the edge check after loading warns you if a set does not fit.</p><p><strong>Tip for your own sets:</strong> the most widely understood names are Front, Back, Left, Right, Up and Down (or the short <code>_ft _bk _lf _rt _up _dn</code>), and <code>posx negx posy negy posz negz</code> for technical cube maps. Engines differ in which side they call "front", so after loading check the preview; the program turns the top and bottom faces to fit and warns when the sides seem to be in the wrong order.</p>
+<p>The <strong>set name</strong> (used for export file names) is the common start of the names without a trailing <code>_</code> or <code>-</code>, or the folder name if there is no common start.</p>
+
+<h3 id="topface">13.4 How the top face fits</h3>
+<p>The top edge of each side face touches one edge of the top face U. Measured on the Serious Sam 3 skies:</p>
+<table>
+<tr><th>Side</th><th>Its top edge touches</th><th>Direction</th></tr>
+<tr><td>N</td><td>the bottom edge of U</td><td>left to right</td></tr>
+<tr><td>E</td><td>the right edge of U</td><td>from bottom to top</td></tr>
+<tr><td>S</td><td>the top edge of U</td><td>from right to left</td></tr>
+<tr><td>W</td><td>the left edge of U</td><td>from top to bottom</td></tr>
+</table>
+<p>So when you look at U in the cross layout, N is directly below it. The bottom face D works the same way the other way round: it lies below N, with N at its top edge and E at its right edge. Other games sometimes store the top or bottom face turned by 90 or 180 degrees. After loading a set, the program compares the edges (64 points per edge) and turns the top face, and the bottom face when the sides are complete squares, until they fit best. It also checks whether the sides run N-E-S-W or the other way round.</p>
+
+<h3 id="layouts">13.5 Export layouts</h3>
+<p><strong>Separate faces</strong> - each face as its own file with its original name and the new extension.</p>
+<p><strong>Strip</strong> - the four sides next to each other in the order W N E S: a picture of the horizon all the way round (4 x the face width).</p>
+<div class="faces" style="grid-template-columns:repeat(4,90px)">
+  <div class="half">W</div><div class="half">N</div><div class="half">E</div><div class="half">S</div>
+</div>
+<p><strong>Cross</strong> - the top face above N, with W N E S below it, and the bottom face (if present) below N. The empty places are transparent. This is the usual way to show an unfolded cube.</p>
+<div class="faces" style="grid-template-columns:repeat(4,90px)">
+  <div class="e"></div><div class="top">U</div><div class="e"></div><div class="e"></div>
+  <div class="half">W</div><div class="half">N</div><div class="half">E</div><div class="half">S</div>
+  <div class="e"></div><div class="bottom">D (if present)</div><div class="e"></div><div class="e"></div>
+</div>
+<p><strong>360 degree panorama</strong> (2:1, also called <em>equirectangular</em>) - the whole sky in one picture, as used by many other games and programs. Horizontally it covers 360 degrees with north in the middle and east to the right; vertically it runs from straight up (top row) to straight down (bottom row). Each pixel is looked up in the right face of the cube. Below the horizon there is no picture in a Serious Sam 3 sky; there the program uses the average color of the horizon (the bottom row of the side faces). If a bottom face D exists, it is used for straight down.</p>
+<p>When all faces are HDR, every layout can also be saved as <code>.hdr</code>, keeping all brightness - useful for other programs that light scenes with an HDR panorama.</p>
+
+<!-- ========================================================= -->
+<h2 id="index">Index <a class="back" href="#contents">contents</a></h2>
+<div class="index">
+<p class="letter">A</p>
+<p><a href="#menus">About</a></p>
+<p><a href="#hdrmenu">ACES film curve</a></p>
+<p><a href="#channels">Alpha channel</a></p>
+<p><a href="#se1v4">ANIM block</a></p>
+<p><a href="#se1v4">Animated textures</a></p>
+<p><a href="#skyboxwin">Auto exposure (skybox)</a></p>
+<p><a href="#autolevels">Auto levels</a></p>
+<p class="letter">B</p>
+<p><a href="#prefs">Background (transparent areas)</a></p>
+<p><a href="#effects">Base texture</a></p>
+<p><a href="#batch">Batch conversion</a></p>
+<p><a href="#dxt">BC1, BC2, BC3, BC5</a></p>
+<p><a href="#bmp">BMP</a></p>
+<p><a href="#ssskybox">Bottom face</a></p>
+<p class="letter">C</p>
+<p><a href="#channels">Channels</a></p>
+<p><a href="#mainwindow">Checkerboard</a></p>
+<p><a href="#clipping">Clipping</a></p>
+<p><a href="#layouts">Cross layout</a></p>
+<p><a href="#se23tex">CTSEMETA</a></p>
+<p><a href="#cubeidea">Cube map</a></p>
+<p class="letter">D</p>
+<p><a href="#dataloss">Data loss warnings</a></p>
+<p><a href="#savedds">DDS, saving</a></p>
+<p><a href="#dds">DDS format</a></p>
+<p><a href="#se23tex">Delta coding</a></p>
+<p><a href="#effects">DFNM</a></p>
+<p><a href="#normalmap">DirectX / OpenGL normal maps</a></p>
+<p><a href="#dxt">DXT1, DXT3, DXT5</a></p>
+<p class="letter">E</p>
+<p><a href="#undo">Edit history</a></p>
+<p><a href="#effects">Effect textures</a></p>
+<p><a href="#layouts">Equirectangular panorama</a></p>
+<p><a href="#hdr">EV (exposure value)</a></p>
+<p><a href="#hdrmenu">Exposure</a></p>
+<p class="letter">F</p>
+<p><a href="#facenames">Face names</a></p>
+<p><a href="#hdrmenu">Filmic tone</a></p>
+<p><a href="#mex">firstMip</a></p>
+<p><a href="#se1v4">Flags (SE1)</a></p>
+<p><a href="#formats">Formats</a></p>
+<p><a href="#se1v4">Frames</a></p>
+<p><a href="#effects">FXDT, FXBF</a></p>
+<p class="letter">G</p>
+<p><a href="#levels">Gamma</a></p>
+<p><a href="#channels">Gloss (_GM textures)</a></p>
+<p><a href="#gro">.gro archive</a></p>
+<p class="letter">H</p>
+<p><a href="#hdr">HDR</a></p>
+<p><a href="#hdrformat">.hdr file</a></p>
+<p><a href="#hdrmenu">HDR menu</a></p>
+<p><a href="#normalmap">Height map</a></p>
+<p><a href="#histogram">Histogram</a></p>
+<p><a href="#layouts">Horizon color</a></p>
+<p class="letter">J</p>
+<p><a href="#jpg">JPG</a></p>
+<p class="letter">K</p>
+<p><a href="#menus">Keyboard shortcuts</a></p>
+<p class="letter">L</p>
+<p><a href="#prefs">Last folders</a></p>
+<p><a href="#levels">Levels</a></p>
+<p class="letter">M</p>
+<p><a href="#mainwindow">Main window</a></p>
+<p><a href="#clipping">Merged tones</a></p>
+<p><a href="#menus">Menus</a></p>
+<p><a href="#mex">Mex size</a></p>
+<p><a href="#mipmaps">Mipmaps</a></p>
+<p class="letter">N</p>
+<p><a href="#normalmap">Normal map</a></p>
+<p><a href="#normalmap">Normalize</a></p>
+<p><a href="#facenames">Numbered skybox sets</a></p>
+<p class="letter">O</p>
+<p><a href="#opening">Open</a></p>
+<p><a href="#gro">Open from .gro archive</a></p>
+<p class="letter">P</p>
+<p><a href="#layouts">Panorama (360 degrees)</a></p>
+<p><a href="#pcx">PCX</a></p>
+<p><a href="#png">PNG</a></p>
+<p><a href="#se1rules">Power of 2</a></p>
+<p><a href="#prefs">Preferences</a></p>
+<p class="letter">R</p>
+<p><a href="#hdrformat">Radiance</a></p>
+<p><a href="#undo">Redo</a></p>
+<p><a href="#resize">Resize</a></p>
+<p><a href="#undo">Revert to original</a></p>
+<p><a href="#hdr">RGBE</a></p>
+<p class="letter">S</p>
+<p><a href="#saving">Save, Save As</a></p>
+<p><a href="#savetex">Serious Sam 1 texture, saving</a></p>
+<p><a href="#se1tex">Serious Sam 1 .tex format</a></p>
+<p><a href="#se23tex">Serious Sam 2 and 3 textures</a></p>
+<p><a href="#prefs">Settings file</a></p>
+<p><a href="#levels">Show clipping</a></p>
+<p><a href="#se23tex">SIGSTRM1</a></p>
+<p><a href="#cubemaps">Skybox</a></p>
+<p><a href="#skyboxwin">Skybox window</a></p>
+<p><a href="#se23tex">STAR chunk</a></p>
+<p><a href="#mainwindow">Status bar</a></p>
+<p><a href="#hdr">Stops</a></p>
+<p><a href="#layouts">Strip layout</a></p>
+<p class="letter">T</p>
+<p><a href="#se1v4">TDAT, TVER, FRMS</a></p>
+<p><a href="#tga">TGA</a></p>
+<p><a href="#tif">TIFF</a></p>
+<p><a href="#hdr">Tone mapping</a></p>
+<p><a href="#topface">Top face orientation</a></p>
+<p><a href="#channels">Transparency</a></p>
+<p class="letter">U</p>
+<p><a href="#undo">Undo</a></p>
+<p class="letter">V</p>
+<p><a href="#se1v3">Version 3 textures</a></p>
+<p><a href="#se1v4">Version 4 textures</a></p>
+<p class="letter">W</p>
+<p><a href="#dataloss">Warnings</a></p>
+<p><a href="#mainwindow">Window position and size</a></p>
+</div>
+
+</main>
+</body>
+</html>

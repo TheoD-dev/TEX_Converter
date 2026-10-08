@@ -1,0 +1,25 @@
+# Bestanden die NIET online komen
+
+# Testmateriaal: textures uit de games zijn van Croteam en mogen niet gedeeld worden
+Test/
+
+# Broncode van Croteam (andere licentie), alleen gebruikt om het formaat te begrijpen
+Referentie/
+
+# Gecompileerde programma's en release-zips (die komen als download bij een Release)
+*.exe
+Release/
+
+# Eigen notities en werkbestanden
+CLAUDE.md
+*.pfi
+
+# Tijdelijke bestanden van PureBasic en het besturingssysteem
+*.bak
+PureBasic_Compilation*
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Dit stappenplan is alleen voor Thei
+GitHub-stappenplan.md
