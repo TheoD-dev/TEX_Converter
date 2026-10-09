@@ -21,14 +21,15 @@ Runs on **Windows and Linux**. Written in [PureBasic](https://www.purebasic.com)
 
 ## Download
 
-Get the latest version from the **[Releases](../../releases)** page. Unzip it anywhere and run `SS1TexConverter.exe`. Keep the `Help` folder next to the program so **Help > Help** (Ctrl+H) works.
+Get the latest version from the **[Releases](../../releases)** page. **Windows**: unzip `SS-TexConverter-1.00-Windows.zip` anywhere and run `SS1TexConverter2.exe`. **Linux**: unpack `SS-TexConverter-1.00-Linux.tar.gz` (`tar -xzf ...`) and run `./SS1TexConverter2`. Keep the `Help` folder next to the program so **Help > Help** (Ctrl+H) works.
 
 ## Building from source
 
 1. Install **PureBasic 6.41** or newer (Windows or Linux).
 2. Open `TexConverter.pb` and compile it (all `.pbi` files are included automatically).
-   From the command line: `pbcompiler TexConverter.pb /EXE SS1TexConverter.exe` (Windows) or `pbcompiler -e TexConverter TexConverter.pb` (Linux).
+   From the command line: `pbcompiler TexConverter.pb /EXE SS1TexConverter2.exe` (Windows) or `pbcompiler -e TexConverter TexConverter.pb` (Linux).
 3. Put the `Help` folder next to the program.
+4. On Linux, `sh build-linux.sh` compiles the program and makes the release archive in one go. A program compiled on Linux can also be packed on Windows with `make-linux-release.ps1`.
 
 The code uses no Windows API, so the same source compiles on Linux. The comments in the source code are in Dutch.
 

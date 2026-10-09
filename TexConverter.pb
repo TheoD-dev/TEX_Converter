@@ -1202,22 +1202,21 @@ DataSection
   IncludeBinary "TexConverter.png"   ; logo voor het About-venster
   AboutLogoEnd:
 EndDataSection
-
-; IDE Options = PureBasic 6.41 (Windows - x64)
+; IDE Options = PureBasic 6.41 (Linux - x64)
 ; CursorPosition = 392
 ; FirstLine = 383
 ; Folding = ------
 ; EnableXP
 ; DPIAware
 ; UseIcon = converter.ico
-; Executable = SS1TexConverter.exe
+; Executable = SS1TexConverter2.x64
 ; IncludeVersionInfo
 ; VersionField0 = 1.0.0.0
 ; VersionField1 = 1.0.0.0
 ; VersionField2 = TheySoft
-; VersionField3 = SS1TexConverter
+; VersionField3 = SS1TexConverter2
 ; VersionField4 = 1.00
 ; VersionField5 = 1.00
 ; VersionField6 = Serious Sam Engine 1 texture converter
-; VersionField7 = SS1TexConverter.exe
-; VersionField8 = SS1TexConverter.exe
+; VersionField7 = SS1TexConverter2.exe
+; VersionField8 = SS1TexConverter2.exe

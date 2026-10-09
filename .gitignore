@@ -8,6 +8,7 @@ Referentie/
 
 # Gecompileerde programma's en release-zips (die komen als download bij een Release)
 *.exe
+*.x64
 Release/
 
 # Eigen notities en werkbestanden
